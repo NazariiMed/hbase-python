@@ -9,6 +9,7 @@ import io
 import struct
 import threading
 import time
+import re
 
 from hbase import protobuf
 from hbase import services, exceptions
@@ -245,6 +246,7 @@ class RegionManager(object):
             pass
 
     def _region_lookup(self, meta_key):
+        meta_key = re.sub(r'^default:', '', meta_key)
         column = protobuf.Column()
         column.family = b'info'
         req = protobuf.GetRequest()
